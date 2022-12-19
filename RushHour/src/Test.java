@@ -1,11 +1,9 @@
 import java.io.IOException;
 
 public class Test {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, OverlappingException {
 		Game game = new Game("RushHour1.txt");
-		
-		System.out.println("The game is" + (game.initialize() ? " " : "not ") + "valid\n");
-		
-		game.draw();
+
+		BreadthFirst.bfsDraw(game);
 	}
 }
