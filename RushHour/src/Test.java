@@ -10,7 +10,7 @@ public class Test {
 //		long end = System.currentTimeMillis();
 //		System.out.println("Solution found in " + (end - start) + " ms");
 
-		long[][] res = new long[6][3];
+		long[][] res = new long[6][4];
 		for (int i = 0; i < 6; i++) {
 			Game game = new Game("RushHour" + (i + 1) + ".txt");
 
@@ -31,17 +31,24 @@ public class Test {
 			HeuristicSolver2.search(game);
 			end = System.currentTimeMillis();
 			res[i][2] = end - start;
-		}
-		System.out.println("\n_____SumUp_____\n");
-		System.out.println(" | BFS | h 1 | h 2 | ");
+			
+			// Third Heuristic
+			start = System.currentTimeMillis();
+			HeuristicSolver3.search(game);
+			end = System.currentTimeMillis();
+			res[i][3] = end - start;
 
-		System.out.println("--------------------");
+		}
+		System.out.println("\nSum up times (ms)\n");
+		System.out.println(" | BFS | h 1 | h 2 | h 3 |");
+
+		System.out.println("--------------------------");
 
 		for (long[] line : res) {
 			for (long elem : line)
 				System.out.print(" | " + elem);
 			System.out.println(" | ");
-			System.out.println("--------------------");
+			System.out.println("--------------------------");
 		}
 	}
 }
