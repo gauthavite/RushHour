@@ -1,41 +1,41 @@
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 
-// An easy bruteforce solution is to use a BFS
-public class BreadthFirst {
-	public static int bfs(Game source) throws OverlappingException {
-		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
-		visited.put(source, 0);
-
-		Queue<Game> q = new LinkedList<Game>();
-		q.add(source);
-		while (!q.isEmpty()) {
-			Game g = q.poll();
-			if (g.isFinished())
-				return visited.get(g);
-			int d = visited.get(g);
-
-			for (Game next : g.possibleGrids()) {
-				if (!visited.containsKey(next)) {
-					q.add(next);
-					visited.put(next, d + 1);
-				}
-			}
+public class HeuristicSolver {
+	public static int h(Game game) {
+		int h = 0;
+		Car redCar = game.cars[0];
+		for (int x = redCar.x + redCar.length; x < game.size; x++) {
+			if (game.grid[redCar.y - 1][redCar.x] != 0)
+				h++;
 		}
-		return -1;
+		return h;
 	}
 
-	public static void bfsDraw(Game source) throws OverlappingException {
+	public static void search(Game source) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
 		HashMap<Game, Game> pointer = new HashMap<Game, Game>();
 
 		visited.put(source, 0);
 
-		Queue<Game> q = new LinkedList<Game>();
+		// We need to provide a Comparator to the Priority Queue
+		class Compare implements Comparator<Game> {
+			public int compare(Game x, Game y) {
+				if (x.equals(y))
+					return 0;
+				if (HeuristicSolver.h(x) + visited.get(x) > HeuristicSolver.h(y) + visited.get(y))
+					return 1;
+				else
+					return -1;
+			}
+		}
+		PriorityQueue<Game> q = new PriorityQueue<Game>(1, new Compare());
+
 		q.add(source);
 		pointer.put(source, null);
-		
+
 		while (!q.isEmpty()) {
 			Game g = q.poll();
 			if (g.isFinished()) {
@@ -46,8 +46,8 @@ public class BreadthFirst {
 
 			for (Game next : g.possibleGrids()) {
 				if (!visited.containsKey(next)) {
-					q.add(next);
 					visited.put(next, d + 1);
+					q.add(next);
 					pointer.put(next, g);
 				}
 			}
@@ -64,12 +64,11 @@ public class BreadthFirst {
 
 		System.out.println("A solution to this game is the following :");
 		int i = 0;
-		while (path.size() > 0){
-			if (i>0)
+		while (path.size() > 0) {
+			if (i > 0)
 				System.out.println("Move n°" + i + " is");
 			path.removeLast().draw();
 			i++;
 		}
 	}
-
 }

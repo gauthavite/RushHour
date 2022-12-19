@@ -1,3 +1,5 @@
 public class OverlappingException extends Exception {
-	public OverlappingException() {}
+	public OverlappingException() {
+		System.out.println("Overlapping vehicles !");
+	}
 }
