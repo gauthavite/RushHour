@@ -1,0 +1,3 @@
+Test a new heuristic similar to the first one but where if there is a car on the way to the exit you count all the cars on the column.
+
+Test the different algorithms with larger database and calculate the mean gained time for the heuristic
