@@ -4,11 +4,7 @@ public class Test {
 	public static void main(String[] args) throws IOException, OverlappingException {
 //		Game game = new Game("RushHour1.txt");
 //
-//		long start = System.currentTimeMillis();
-//		//BreadthFirst.bfsDraw(game);
-//		HeuristicSolver.search(game);
-//		long end = System.currentTimeMillis();
-//		System.out.println("Solution found in " + (end - start) + " ms");
+//		BreadthFirst.bfsDraw(game);
 
 		long[][] res = new long[6][4];
 		for (int i = 0; i < 6; i++) {
@@ -16,39 +12,47 @@ public class Test {
 
 			// BFS
 			long start = System.currentTimeMillis();
-			BreadthFirst.bfs(game);
+			for (int iter = 0; iter < 10; iter++)
+				BreadthFirst.bfs(game);
 			long end = System.currentTimeMillis();
-			res[i][0] = end - start;
+			res[i][0] = (end - start) / 10;
 
 			// First Heuristic
 			start = System.currentTimeMillis();
-			HeuristicSolver.search(game);
+			for (int iter = 0; iter < 10; iter++)
+				HeuristicSolver.search(game, 1);
 			end = System.currentTimeMillis();
-			res[i][1] = end - start;
+			res[i][1] = (end - start) / 10;
 
 			// Second Heuristic
 			start = System.currentTimeMillis();
-			HeuristicSolver2.search(game);
+			for (int iter = 0; iter < 10; iter++)
+				HeuristicSolver.search(game, 2);
 			end = System.currentTimeMillis();
-			res[i][2] = end - start;
-			
+			res[i][2] = (end - start) / 10;
+
 			// Third Heuristic
 			start = System.currentTimeMillis();
-			HeuristicSolver3.search(game);
+			for (int iter = 0; iter < 10; iter++)
+				HeuristicSolver.search(game, 3);
 			end = System.currentTimeMillis();
-			res[i][3] = end - start;
+			res[i][3] = (end - start) / 10;
 
 		}
 		System.out.println("\nSum up times (ms)\n");
-		System.out.println(" | BFS | h 1 | h 2 | h 3 |");
+		System.out.println("     File     | BFS | h 1 | h 2 | h 3 |");
 
-		System.out.println("--------------------------");
+		System.out.println("---------------------------------------");
 
-		for (long[] line : res) {
-			for (long elem : line)
-				System.out.print(" | " + elem);
+		for (int i = 0; i < res.length; i++) {
+			System.out.print("RushHour" + (i + 1) + ".txt");
+			
+			for (long elem : res[i]) {
+				System.out.print(" | ");
+				System.out.print(String.format("%3d%n", elem).replace(System.lineSeparator(), ""));
+			}
 			System.out.println(" | ");
-			System.out.println("--------------------------");
+			System.out.println("---------------------------------------");
 		}
 	}
 }
