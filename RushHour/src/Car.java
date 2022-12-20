@@ -1,7 +1,7 @@
 class Car {
-	int carNumber; // potentially useless
-	String orientation;
-	int length;
+	final int carNumber; // potentially useless
+	final String orientation;
+	final int length;
 	int x, y;
 
 	public Car(String line) {

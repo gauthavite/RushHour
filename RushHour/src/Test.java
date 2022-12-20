@@ -4,7 +4,7 @@ public class Test {
 	public static void main(String[] args) throws IOException, OverlappingException {
 //		Game game = new Game("RushHour1.txt");
 //
-//		BreadthFirst.bfsDraw(game);
+//		HeuristicSolver.searchDraw(game, 0);
 
 		long[][] res = new long[6][4];
 		for (int i = 0; i < 6; i++) {

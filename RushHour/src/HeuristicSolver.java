@@ -12,7 +12,7 @@ public class HeuristicSolver {
 			return h2(game);
 		if (i==3)
 			return h3(game);
-		return -1;
+		return 0; //When the heuristic is equal to 0, the get a standard BFS
 	}
 	
 	public static int h1(Game game) {
@@ -63,17 +63,17 @@ public class HeuristicSolver {
 		visited.put(source, 0);
 
 		// We need to provide a Comparator to the Priority Queue
-		class Compare implements Comparator<Game> {
+		class HeuristicComparator implements Comparator<Game> {
 			public int compare(Game x, Game y) {
 				if (x.equals(y))
 					return 0;
-				if (HeuristicSolver.h(x, i) + visited.get(x) > HeuristicSolver.h(y, i) + visited.get(y))
+				if (h(x, i) + visited.get(x) > h(y, i) + visited.get(y))
 					return 1;
 				else
 					return -1;
 			}
 		}
-		PriorityQueue<Game> q = new PriorityQueue<Game>(1, new Compare());
+		PriorityQueue<Game> q = new PriorityQueue<Game>(new HeuristicComparator());
 
 		q.add(source);
 
@@ -101,17 +101,17 @@ public class HeuristicSolver {
 		visited.put(source, 0);
 
 		// We need to provide a Comparator to the Priority Queue
-		class Compare implements Comparator<Game> {
+		class HeuristicComparator implements Comparator<Game> {
 			public int compare(Game x, Game y) {
 				if (x.equals(y))
 					return 0;
-				if (HeuristicSolver.h(x, i) + visited.get(x) > HeuristicSolver.h(y, i) + visited.get(y))
+				if (h(x, i) + visited.get(x) > h(y, i) + visited.get(y))
 					return 1;
 				else
 					return -1;
 			}
 		}
-		PriorityQueue<Game> q = new PriorityQueue<Game>(1, new Compare());
+		PriorityQueue<Game> q = new PriorityQueue<Game>(new HeuristicComparator());
 
 		q.add(source);
 		pointer.put(source, null);
