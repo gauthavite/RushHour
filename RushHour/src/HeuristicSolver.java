@@ -4,58 +4,81 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class HeuristicSolver {
-	
+
 	public static int h(Game game, int i) {
-		if (i==1)
+		if (i == 1)
 			return h1(game);
-		if (i==2)
+		if (i == 2)
 			return h2(game);
-		if (i==3)
-			return h3(game);
-		return 0; //When the heuristic is equal to 0, the get a standard BFS
+		return 0; // When the heuristic is equal to 0, the get a standard BFS
 	}
-	
+
 	public static int h1(Game game) {
 		int h = 0;
 		Car redCar = game.cars[0];
-		for (int x = redCar.x + redCar.length; x < game.size; x++) {
-			if (game.grid[redCar.y - 1][redCar.x] != 0)
+		for (int x = redCar.x + redCar.length; x <= game.size; x++) {
+			if (game.grid[redCar.y - 1][x - 1] != 0)
 				h++;
 		}
 		return h;
 	}
-	
-	// This second heuristic is similar to the first one 
-	// but we also add the distance between the exit and the red car
+
+	// This new heuristic is similar to the first one but it adds the minimum of the
+	// number of vehicles blocking the counted vehicles in h1.
 	public static int h2(Game game) {
-		int h = 0;
 		Car redCar = game.cars[0];
-		for (int x = redCar.x + redCar.length; x < game.size; x++) {
-			if (game.grid[redCar.y - 1][redCar.x] != 0)
-				h++;
-		}
-		return h + game.size - (redCar.x + redCar.length - 1);
-	}
-	
-	// This new heuristic is similar to the second one but 
-	// if there is a car on the way to the exit all the cars on the column are counted. 
-	// If there is the same car on two different columns, it is only counted one time. 
-	public static int h3(Game game) {
+		int sum = 0;
 
-		Car redCar = game.cars[0];
-		LinkedList<Integer> carsOnColumn = new LinkedList<Integer>(); 
+		LinkedList<Integer> carsOnTheExitWay = new LinkedList<Integer>();
 
-		for (int x = redCar.x + redCar.length; x < game.size; x++) {
-			if (game.grid[redCar.y - 1][redCar.x] != 0) {
-				for (int y=0; y<game.size; y++) {
-					if (y != 0 && !carsOnColumn.contains(y))
-						carsOnColumn.add(y);
-				}
+		for (int x = redCar.x + redCar.length; x <= game.size; x++) {
+			if (game.grid[redCar.y - 1][x - 1] != 0) {
+				sum++;
+				carsOnTheExitWay.add(game.grid[redCar.y - 1][x - 1]);
 			}
 		}
-		return carsOnColumn.size() + game.size - (redCar.x + redCar.length - 1);
-	}
 
+		LinkedList<Integer> carsCountedForHeuristic = new LinkedList<Integer>();
+		carsCountedForHeuristic.addAll(carsOnTheExitWay);
+//		System.out.println(sum);
+//		System.out.println(carsCountedForHeuristic);
+
+		for (Integer carNumber : carsOnTheExitWay) {
+			Car blockingCar = game.cars[carNumber - 1];
+			LinkedList<Integer> carsCountedAbove = new LinkedList<Integer>();
+			LinkedList<Integer> carsCountedBelow = new LinkedList<Integer>();
+
+			for (int y = blockingCar.y + blockingCar.length; y <= game.size; y++) { // We count the number of cars below
+																					// the blocking car
+				if (game.grid[y - 1][blockingCar.x - 1] != 0 && !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
+					carsCountedBelow.add(game.grid[y - 1][blockingCar.x - 1]);
+
+			}
+
+			for (int y = blockingCar.y - 1; y > 0; y--) { // We count the number of cars below the blocking car
+				if (game.grid[y - 1][blockingCar.x - 1] != 0 && !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
+					carsCountedAbove.add(game.grid[y - 1][blockingCar.x - 1]);
+
+			}
+			
+			int above = carsCountedAbove.size();
+			int below = carsCountedBelow.size();
+			
+			if (blockingCar.length >= redCar.y) // Then the car cannot move to the top because it is too big
+				above = Integer.MAX_VALUE;
+
+//			System.out.println(carsCountedAbove);
+//			System.out.println(carsCountedBelow);
+			if (below > above) {// There is more blocking cars below, thus we should go above
+				carsCountedForHeuristic.addAll(carsCountedAbove);
+				sum += above;
+			} else {
+				carsCountedForHeuristic.addAll(carsCountedBelow);
+				sum += below;
+			}
+		}
+		return sum;
+	}
 
 	public static int search(Game source, int i) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
@@ -147,6 +170,7 @@ public class HeuristicSolver {
 		while (path.size() > 0) {
 			if (i > 0)
 				System.out.println("Move n°" + i + " is");
+//			System.out.println("The new heuristic h2 is equal to " + h2(path.getLast()));
 			path.removeLast().draw();
 			i++;
 		}
