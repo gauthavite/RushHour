@@ -13,28 +13,28 @@ public class Test {
 			// BFS
 			long start = System.currentTimeMillis();
 			for (int iter = 0; iter < 10; iter++)
-				BreadthFirst.bfs(game);
+				System.out.println("BFS : trial :" + iter + "; d= " + BreadthFirst.bfs(game));
 			long end = System.currentTimeMillis();
 			res[i][0] = (end - start) / 10;
 
 			// First Heuristic
 			start = System.currentTimeMillis();
 			for (int iter = 0; iter < 10; iter++)
-				HeuristicSolver.search(game, 1);
+				System.out.println("h1 : trial :" + iter + "; d= " + HeuristicSolver.search(game, 1));
 			end = System.currentTimeMillis();
 			res[i][1] = (end - start) / 10;
 
 			// Second Heuristic
 			start = System.currentTimeMillis();
 			for (int iter = 0; iter < 10; iter++)
-				HeuristicSolver.search(game, 2);
+				System.out.println("h2 : trial :" + iter + "; d= " + HeuristicSolver.search(game, 2));
 			end = System.currentTimeMillis();
 			res[i][2] = (end - start) / 10;
 
 			// Third Heuristic
 			start = System.currentTimeMillis();
 			for (int iter = 0; iter < 10; iter++)
-				HeuristicSolver.search(game, 3);
+				System.out.println("h3 : trial :" + iter + "; d= " + HeuristicSolver.search(game, 3));
 			end = System.currentTimeMillis();
 			res[i][3] = (end - start) / 10;
 
