@@ -273,6 +273,49 @@ public class HeuristicSolver {
 		return -1;
 	}
 
+	public static int[] searchBis(Game source, int i) throws OverlappingException {
+		int[] res = new int[2];
+		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
+
+		visited.put(source, 0);
+
+		// We need to provide a Comparator to the Priority Queue
+		class HeuristicComparator implements Comparator<Game> {
+			public int compare(Game x, Game y) {
+				if (x.equals(y))
+					return 0;
+				if (h(x, i) + visited.get(x) > h(y, i) + visited.get(y))
+					return 1;
+				else
+					return -1;
+			}
+		}
+		PriorityQueue<Game> q = new PriorityQueue<Game>(new HeuristicComparator());
+
+		q.add(source);
+
+		while (!q.isEmpty()) {
+			Game g = q.poll();
+			if (g.isFinished()) {
+				res[0] = visited.get(g);
+				res[1] = visited.size();
+				return res;
+			}
+
+			int d = visited.get(g);
+
+			for (Game next : g.possibleGrids()) {
+				if (!visited.containsKey(next)) {
+					visited.put(next, d + 1);
+					q.add(next);
+				}
+			}
+		}
+		res[0] = -1;
+		res[1] = -1;
+		return res;
+	}
+	
 	public static void searchDraw(Game source, int i) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
 		HashMap<Game, Game> pointer = new HashMap<Game, Game>();
@@ -325,7 +368,7 @@ public class HeuristicSolver {
 		int i = 0;
 		while (path.size() > 0) {
 			if (i > 0)
-				System.out.println("Move n°" + i + " is");
+				System.out.println("Move nï¿½" + i + " is");
 			System.out.println("The new heuristic h2 is equal to " + h2(path.getLast()));
 			path.removeLast().draw();
 			i++;

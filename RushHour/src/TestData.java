@@ -69,13 +69,13 @@ public class TestData {
 			int coord = 0;
 			
 			// BFS
-			resVisit[i][0] = BreadthFirst.bfs(game)[coord];
+			resVisit[i][0] = BreadthFirst.bfsBis(game)[coord];
 
 			// First Heuristic
-			resVisit[i][1] = HeuristicSolver.search(game, 1)[coord];
+			resVisit[i][1] = HeuristicSolver.searchBis(game, 1)[coord];
 
 			// Second Heuristic
-			resVisit[i][2] = HeuristicSolver.search(game, 2)[coord];
+			resVisit[i][2] = HeuristicSolver.searchBis(game, 2)[coord];
 
 			for (long elem : resVisit[i]) {
 				System.out.print(" | ");

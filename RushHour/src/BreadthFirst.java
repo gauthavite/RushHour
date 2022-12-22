@@ -4,6 +4,7 @@ import java.util.Queue;
 
 // An easy bruteforce solution is to use a BFS
 public class BreadthFirst {
+	
 	public static int bfs(Game source) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
 		visited.put(source, 0);
@@ -26,6 +27,35 @@ public class BreadthFirst {
 		return -1;
 	}
 
+	public static int[] bfsBis(Game source) throws OverlappingException {
+		int[] res = new int[2];
+		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
+		visited.put(source, 0);
+
+		Queue<Game> q = new LinkedList<Game>();
+		q.add(source);
+		while (!q.isEmpty()) {
+			Game g = q.poll();
+			if (g.isFinished()) {
+				res[0] = visited.get(g);
+				res[1] = visited.size();
+				return res;
+			}
+			int d = visited.get(g);
+
+			for (Game next : g.possibleGrids()) {
+				if (!visited.containsKey(next)) {
+					q.add(next);
+					visited.put(next, d + 1);
+				}
+			}
+		}
+		res[0] = -1;
+		res[1] = -1;
+		return res;
+	}
+
+	
 	public static void bfsDraw(Game source) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
 		HashMap<Game, Game> pointer = new HashMap<Game, Game>();
@@ -66,7 +96,7 @@ public class BreadthFirst {
 		int i = 0;
 		while (path.size() > 0){
 			if (i>0)
-				System.out.println("Move n°" + i + " is");
+				System.out.println("Move nï¿½" + i + " is");
 			path.removeLast().draw();
 			i++;
 		}
