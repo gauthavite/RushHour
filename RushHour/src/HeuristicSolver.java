@@ -12,7 +12,7 @@ public class HeuristicSolver {
 			return h2(game);
 		if (i == 3)
 			return h3(game);
-		return 0; // When the heuristic is equal to 0, the get a standard BFS
+		return 0; // When the heuristic is equal to 0, we get a standard BFS
 	}
 
 	public static int h1(Game game) {
@@ -109,16 +109,16 @@ public class HeuristicSolver {
 
 		LinkedList<Integer> carsCountedForHeuristic = new LinkedList<Integer>();
 		carsCountedForHeuristic.addAll(carsOnTheExitWay);
-		
+
 		System.out.println(sum);
 		System.out.println(carsCountedForHeuristic);
-		
+
 		LinkedList<Integer> carsCountedLastTurn = new LinkedList<Integer>();
 		carsCountedLastTurn.addAll(carsOnTheExitWay);
 
 		while (!carsCountedLastTurn.isEmpty()) {
 			LinkedList<Integer> newCarsThisTurn = new LinkedList<Integer>();
-			
+
 			for (Integer carNumber : carsCountedLastTurn) {
 				Car blockingCar = game.cars[carNumber - 1];
 
@@ -213,7 +213,7 @@ public class HeuristicSolver {
 					if (2 * blockingCar.length >= game.size + 1 - redCar.x) // Then the car cannot move to the right
 																			// because it is too big
 						right = Integer.MAX_VALUE;
-					
+
 					System.out.println(carsCountedLeft);
 					System.out.println(carsCountedRight);
 
@@ -244,14 +244,14 @@ public class HeuristicSolver {
 		// We need to provide a Comparator to the Priority Queue
 		class HeuristicComparator implements Comparator<Game> {
 			public int compare(Game x, Game y) {
-				if (x.equals(y))
+				if (x.equals(y) || h(x, i) + visited.get(x) == h(y, i) + visited.get(y))
 					return 0;
-				if (h(x, i) + visited.get(x) > h(y, i) + visited.get(y))
-					return 1;
-				else
+				if (h(x, i) + visited.get(x) < h(y, i) + visited.get(y))
 					return -1;
+				return 1;
 			}
 		}
+
 		PriorityQueue<Game> q = new PriorityQueue<Game>(new HeuristicComparator());
 
 		q.add(source);
@@ -282,12 +282,11 @@ public class HeuristicSolver {
 		// We need to provide a Comparator to the Priority Queue
 		class HeuristicComparator implements Comparator<Game> {
 			public int compare(Game x, Game y) {
-				if (x.equals(y))
+				if (x.equals(y) || h(x, i) + visited.get(x) == h(y, i) + visited.get(y))
 					return 0;
-				if (h(x, i) + visited.get(x) > h(y, i) + visited.get(y))
-					return 1;
-				else
+				if (h(x, i) + visited.get(x) < h(y, i) + visited.get(y))
 					return -1;
+				return 1;
 			}
 		}
 		PriorityQueue<Game> q = new PriorityQueue<Game>(new HeuristicComparator());
@@ -315,7 +314,7 @@ public class HeuristicSolver {
 		res[1] = -1;
 		return res;
 	}
-	
+
 	public static void searchDraw(Game source, int i) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
 		HashMap<Game, Game> pointer = new HashMap<Game, Game>();
@@ -325,12 +324,12 @@ public class HeuristicSolver {
 		// We need to provide a Comparator to the Priority Queue
 		class HeuristicComparator implements Comparator<Game> {
 			public int compare(Game x, Game y) {
-				if (x.equals(y))
+				if (x.equals(y) || h(x, i) + visited.get(x) == h(y, i) + visited.get(y)) {
 					return 0;
-				if (h(x, i) + visited.get(x) > h(y, i) + visited.get(y))
-					return 1;
-				else
+				}
+				if (h(x, i) + visited.get(x) < h(y, i) + visited.get(y))
 					return -1;
+				return 1;
 			}
 		}
 		PriorityQueue<Game> q = new PriorityQueue<Game>(new HeuristicComparator());
@@ -368,7 +367,7 @@ public class HeuristicSolver {
 		int i = 0;
 		while (path.size() > 0) {
 			if (i > 0)
-				System.out.println("Move nï¿½" + i + " is");
+				System.out.println("Move n°" + i + " is");
 			System.out.println("The new heuristic h2 is equal to " + h2(path.getLast()));
 			path.removeLast().draw();
 			i++;

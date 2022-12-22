@@ -121,14 +121,14 @@ public class Game {
 	public int hashCode() {
 		int sum = 0;
 		for (Car c : this.cars) {
-			sum += c.x * (5*c.x + 17*c.y);
+			sum += c.x * (5*c.x + 17*c.y) + 72*c.y;
 		}
 		return sum;
 	}
 	
 	public boolean equals(Object o) {
 		Game that = (Game)o;
-		//Those equalities imply the equality of cars.
+		//These equalities imply the equality of the field 'cars'.
 		return this.size == that.size && this.nbVehicles == that.nbVehicles && Arrays.deepEquals(this.grid, that.grid);
 	}
 }

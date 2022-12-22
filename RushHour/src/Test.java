@@ -3,12 +3,15 @@ import java.io.IOException;
 public class Test {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
-		for (int i = 0; i < 6; i++) {
-			Game game = new Game("RushHour" + (i + 1) + ".txt");
-			System.out.println(BreadthFirst.bfs(game));
-			System.out.println(HeuristicSolver.search(game, 2));
-
-		}
+//		for (int i = 0; i < 6; i++) {
+//			Game game = new Game("RushHour" + (i + 1) + ".txt");
+//			System.out.println(BreadthFirst.bfs(game));
+//			System.out.println(HeuristicSolver.search(game, 2));
+//		}
+		
+		Game game = new Game("RushHour3.txt");
+		System.out.println(HeuristicSolver.search(game, 2));
+		
 //		long[][] res = new long[6][3];
 //		for (int i = 0; i < 6; i++) {
 //			Game game = new Game("RushHour" + (i + 1) + ".txt");
