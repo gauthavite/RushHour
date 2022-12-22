@@ -3,11 +3,11 @@ import java.io.IOException;
 public class TestData {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
+		//loop for execution time
 		long[][] resTime = new long[40][4];
 
 		System.out.println("\nSum up times (ms)\n");
 		System.out.println("     File   | BFS | h 1 | h 2 | car |");
-
 		System.out.println("-------------------------------------");
 
 		for (int i = 0; i < 0; i++) {
@@ -49,11 +49,12 @@ public class TestData {
 
 		}
 		
+		
+		//loop for distance and number of vertex visited
 		long[][] resVisit = new long[40][3];
 
 		System.out.println("\nNumber of vertex visited\n");
 		System.out.println("     File   |  BFS  |  h 1  |  h 2  |");
-
 		System.out.println("-------------------------------------");
 
 		for (int i = 0; i < 6; i++) {
@@ -66,16 +67,16 @@ public class TestData {
 				System.out.print("GameP" + (i + 1) + ".txt");
 			}
 
-			int coord = 0;
+			int output = 0; // 0 to display the distance found, 1 for the number of vertex visited during the search
 			
 			// BFS
-			resVisit[i][0] = BreadthFirst.bfsBis(game)[coord];
+			resVisit[i][0] = BreadthFirst.bfsBis(game)[output];
 
 			// First Heuristic
-			resVisit[i][1] = HeuristicSolver.searchBis(game, 1)[coord];
+			resVisit[i][1] = HeuristicSolver.searchBis(game, 1)[output];
 
 			// Second Heuristic
-			resVisit[i][2] = HeuristicSolver.searchBis(game, 2)[coord];
+			resVisit[i][2] = HeuristicSolver.searchBis(game, 2)[output];
 
 			for (long elem : resVisit[i]) {
 				System.out.print(" | ");
