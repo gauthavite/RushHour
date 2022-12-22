@@ -10,6 +10,8 @@ public class HeuristicSolver {
 			return h1(game);
 		if (i == 2)
 			return h2(game);
+		if (i == 3)
+			return h3(game);
 		return 0; // When the heuristic is equal to 0, the get a standard BFS
 	}
 
@@ -48,22 +50,31 @@ public class HeuristicSolver {
 			LinkedList<Integer> carsCountedAbove = new LinkedList<Integer>();
 			LinkedList<Integer> carsCountedBelow = new LinkedList<Integer>();
 
-			for (int y = blockingCar.y + blockingCar.length; y <= game.size; y++) { // We count the number of cars below
-																					// the blocking car
-				if (game.grid[y - 1][blockingCar.x - 1] != 0 && !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
+			for (int y = blockingCar.y + blockingCar.length; y < Math.min(game.size + 1,
+					blockingCar.y + 2 * blockingCar.length); y++) { // We count the number of cars below
+				// the blocking car
+				if (game.grid[y - 1][blockingCar.x - 1] != 0
+						&& !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
 					carsCountedBelow.add(game.grid[y - 1][blockingCar.x - 1]);
 
 			}
 
-			for (int y = blockingCar.y - 1; y > 0; y--) { // We count the number of cars below the blocking car
-				if (game.grid[y - 1][blockingCar.x - 1] != 0 && !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
+			for (int y = blockingCar.y - 1; y > Math.max(0, blockingCar.y - 1 - blockingCar.length); y--) { // We count
+																											// the
+																											// number of
+																											// cars
+																											// below the
+																											// blocking
+																											// car
+				if (game.grid[y - 1][blockingCar.x - 1] != 0
+						&& !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
 					carsCountedAbove.add(game.grid[y - 1][blockingCar.x - 1]);
 
 			}
-			
+
 			int above = carsCountedAbove.size();
 			int below = carsCountedBelow.size();
-			
+
 			if (blockingCar.length >= redCar.y) // Then the car cannot move to the top because it is too big
 				above = Integer.MAX_VALUE;
 
@@ -76,6 +87,151 @@ public class HeuristicSolver {
 				carsCountedForHeuristic.addAll(carsCountedBelow);
 				sum += below;
 			}
+		}
+		return sum;
+	}
+
+	// This new heuristic is similar to the previous one but it computes over all
+	// vehicles.
+	// Work in progress
+	public static int h3(Game game) {
+		Car redCar = game.cars[0];
+		int sum = 0;
+
+		LinkedList<Integer> carsOnTheExitWay = new LinkedList<Integer>();
+
+		for (int x = redCar.x + redCar.length; x <= game.size; x++) {
+			if (game.grid[redCar.y - 1][x - 1] != 0) {
+				sum++;
+				carsOnTheExitWay.add(game.grid[redCar.y - 1][x - 1]);
+			}
+		}
+
+		LinkedList<Integer> carsCountedForHeuristic = new LinkedList<Integer>();
+		carsCountedForHeuristic.addAll(carsOnTheExitWay);
+		
+		System.out.println(sum);
+		System.out.println(carsCountedForHeuristic);
+		
+		LinkedList<Integer> carsCountedLastTurn = new LinkedList<Integer>();
+		carsCountedLastTurn.addAll(carsOnTheExitWay);
+
+		while (!carsCountedLastTurn.isEmpty()) {
+			LinkedList<Integer> newCarsThisTurn = new LinkedList<Integer>();
+			
+			for (Integer carNumber : carsCountedLastTurn) {
+				Car blockingCar = game.cars[carNumber - 1];
+
+				if (blockingCar.orientation.equals("v")) {
+					LinkedList<Integer> carsCountedAbove = new LinkedList<Integer>();
+					LinkedList<Integer> carsCountedBelow = new LinkedList<Integer>();
+
+					for (int y = blockingCar.y + blockingCar.length; y < Math.min(game.size + 1,
+							blockingCar.y + 2 * blockingCar.length); y++) { // We count the number of cars
+						// below
+						// the blocking car
+						if (game.grid[y - 1][blockingCar.x - 1] != 0
+								&& !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
+							carsCountedBelow.add(game.grid[y - 1][blockingCar.x - 1]);
+
+					}
+
+					for (int y = blockingCar.y - 1; y > Math.max(0, blockingCar.y - 1 - blockingCar.length); y--) { // We
+																													// count
+																													// the
+																													// number
+																													// of
+																													// cars
+																													// below
+																													// the
+																													// blocking
+																													// car
+						if (game.grid[y - 1][blockingCar.x - 1] != 0
+								&& !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
+							carsCountedAbove.add(game.grid[y - 1][blockingCar.x - 1]);
+
+					}
+
+					int above = carsCountedAbove.size();
+					int below = carsCountedBelow.size();
+
+					if (blockingCar.length >= redCar.y) // Then the car cannot move to the top because it is too big
+						above = Integer.MAX_VALUE;
+					if (2 * blockingCar.length >= game.size + 1 - redCar.y) // Then the car cannot move to the bot
+																			// because it is too big
+						below = Integer.MAX_VALUE;
+					System.out.println(carsCountedAbove);
+					System.out.println(carsCountedBelow);
+
+					if (below > above) {// There is more blocking cars below, thus we should go above
+						carsCountedForHeuristic.addAll(carsCountedAbove);
+						newCarsThisTurn.addAll(carsCountedAbove);
+						sum += above;
+					} else {
+						carsCountedForHeuristic.addAll(carsCountedBelow);
+						newCarsThisTurn.addAll(carsCountedBelow);
+						sum += below;
+					}
+
+				} else { // orientation is horizontal
+					LinkedList<Integer> carsCountedLeft = new LinkedList<Integer>();
+					LinkedList<Integer> carsCountedRight = new LinkedList<Integer>();
+
+					for (int x = blockingCar.x + blockingCar.length; x < Math.min(game.size + 1,
+							blockingCar.x + 2 * blockingCar.length); x++) { // We count the number of cars to the left
+																			// of the blocking car
+						if (game.grid[blockingCar.y - 1][x - 1] != 0
+								&& !carsCountedForHeuristic.contains(game.grid[blockingCar.y - 1][x - 1]))
+							carsCountedRight.add(game.grid[blockingCar.y - 1][x - 1]);
+
+					}
+
+					for (int x = blockingCar.x - 1; x > Math.max(0, blockingCar.x - 1 - blockingCar.length); x--) { // We
+																													// count
+																													// the
+																													// number
+																													// of
+																													// cars
+																													// to
+																													// the
+																													// right
+																													// of
+																													// the
+																													// blocking
+																													// car
+						if (game.grid[blockingCar.y - 1][x - 1] != 0
+								&& !carsCountedForHeuristic.contains(game.grid[blockingCar.y - 1][x - 1]))
+							carsCountedLeft.add(game.grid[blockingCar.y - 1][x - 1]);
+
+					}
+
+					int left = carsCountedLeft.size();
+					int right = carsCountedRight.size();
+
+					if (blockingCar.length >= redCar.x) // Then the car cannot move to the left because it is too big
+						left = Integer.MAX_VALUE;
+					if (2 * blockingCar.length >= game.size + 1 - redCar.x) // Then the car cannot move to the right
+																			// because it is too big
+						right = Integer.MAX_VALUE;
+					
+					System.out.println(carsCountedLeft);
+					System.out.println(carsCountedRight);
+
+					if (right > left) {// There is more blocking cars below, thus we should go above
+						carsCountedForHeuristic.addAll(carsCountedLeft);
+						newCarsThisTurn.addAll(carsCountedLeft);
+						sum += left;
+					} else {
+						carsCountedForHeuristic.addAll(carsCountedRight);
+						newCarsThisTurn.addAll(carsCountedRight);
+						sum += right;
+					}
+
+				}
+			}
+			carsCountedLastTurn.clear();
+			carsCountedLastTurn.addAll(newCarsThisTurn);
+			System.out.println(carsCountedLastTurn);
 		}
 		return sum;
 	}
@@ -170,7 +326,7 @@ public class HeuristicSolver {
 		while (path.size() > 0) {
 			if (i > 0)
 				System.out.println("Move n°" + i + " is");
-//			System.out.println("The new heuristic h2 is equal to " + h2(path.getLast()));
+			System.out.println("The new heuristic h2 is equal to " + h2(path.getLast()));
 			path.removeLast().draw();
 			i++;
 		}
