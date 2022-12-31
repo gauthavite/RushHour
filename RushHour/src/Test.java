@@ -3,14 +3,14 @@ import java.io.IOException;
 public class Test {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
-//		for (int i = 0; i < 6; i++) {
-//			Game game = new Game("RushHour" + (i + 1) + ".txt");
-//			System.out.println(BreadthFirst.bfs(game));
-//			System.out.println(HeuristicSolver.search(game, 2));
-//		}
-		
+		// Verify that all the heuristics are optimal, i.e. that the lengths of the solutions are equal
+		// VerifyOptimality.verify();
+//		
 		Game game = new Game("RushHour3.txt");
-		System.out.println(HeuristicSolver.search(game, 2));
+		HeuristicSolver.searchDraw(game, 3);
+//		
+//		Game test = new Game("test.txt");
+//		System.out.println(HeuristicSolver.h2(test));
 		
 //		long[][] res = new long[6][3];
 //		for (int i = 0; i < 6; i++) {

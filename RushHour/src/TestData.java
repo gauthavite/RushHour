@@ -8,7 +8,7 @@ public class TestData {
 
 		System.out.println("\nSum up times (ms)\n");
 		System.out.println("     File   | BFS | h 1 | h 2 | car |");
-		System.out.println("-------------------------------------");
+		System.out.println("--------------------------------------");
 
 		for (int i = 0; i < 0; i++) {
 			Game game;
@@ -45,21 +45,21 @@ public class TestData {
 				System.out.print(String.format("%3d%n", elem).replace(System.lineSeparator(), ""));
 			}
 			System.out.println(" | ");
-			System.out.println("-------------------------------------");
+			System.out.println("---------------------------------------------");
 
 		}
 		
 		
 		//loop for distance and number of vertex visited
-		long[][] resVisit = new long[40][3];
+		long[][] resVisit = new long[40][4];
 
 		System.out.println("\nNumber of vertex visited\n");
-		System.out.println("     File   |  BFS  |  h 1  |  h 2  |");
-		System.out.println("-------------------------------------");
+		System.out.println("     File   |  BFS  |  h 1  |  h 2  |  h 3  |");
+		System.out.println("---------------------------------------------");
 
 		for (int i = 0; i < 6; i++) {
 			Game game;
-			if (i < 9) {
+			if (i < 6) {
 				game = new Game("RushHour" + (i + 1) + ".txt");
 				System.out.print("GameP0" + (i + 1) + ".txt");
 			} else {
@@ -77,13 +77,16 @@ public class TestData {
 
 			// Second Heuristic
 			resVisit[i][2] = HeuristicSolver.searchBis(game, 2)[output];
-
+			
+			// Third Heuristic
+			resVisit[i][3] = HeuristicSolver.searchBis(game, 3)[output];
+			
 			for (long elem : resVisit[i]) {
 				System.out.print(" | ");
 				System.out.print(String.format("%5d%n", elem).replace(System.lineSeparator(), ""));
 			}
 			System.out.println(" | ");
-			System.out.println("-------------------------------------");
+			System.out.println("---------------------------------------------");
 
 		}
 

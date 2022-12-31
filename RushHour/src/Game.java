@@ -126,9 +126,16 @@ public class Game {
 		return sum;
 	}
 	
+	@Override
 	public boolean equals(Object o) {
 		Game that = (Game)o;
-		//These equalities imply the equality of the field 'cars'.
-		return this.size == that.size && this.nbVehicles == that.nbVehicles && Arrays.deepEquals(this.grid, that.grid);
+		if (this.size != that.size || this.nbVehicles != that.nbVehicles) 
+			return false;
+		//Both cars lists have the same length
+		for (int i = 0; i < this.nbVehicles; i++) {
+			if (!this.cars[i].equals(that.cars[i]))
+				return false;
+		}
+		return true;
 	}
 }
