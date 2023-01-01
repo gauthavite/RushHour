@@ -89,7 +89,7 @@ public class HeuristicSolver {
 
 	// This new heuristic is similar to the previous one but it computes over all
 	// vehicles.
-	// Work in progress
+	// I think that the current structure is worthless, we should make a recursive function.
 	public static int h3(Game game) {
 //		LinkedList<Integer> carsCounted = new LinkedList<Integer>();
 //		
@@ -110,7 +110,7 @@ public class HeuristicSolver {
 		LinkedList<Integer> carsCountedForHeuristic = new LinkedList<Integer>();
 		carsCountedForHeuristic.addAll(carsOnTheExitWay);
 
-		System.out.println(carsCountedForHeuristic);
+		// System.out.println(carsCountedForHeuristic);
 
 		LinkedList<Integer> carsCountedLastTurn = new LinkedList<Integer>();
 		carsCountedLastTurn.addAll(carsOnTheExitWay);
@@ -152,7 +152,7 @@ public class HeuristicSolver {
 							carsCountedAbove.add(game.grid[y - 1][blockingCar.x - 1]);
 
 					}
-					
+
 					int above = carsCountedAbove.size();
 					int below = carsCountedBelow.size();
 
@@ -161,8 +161,8 @@ public class HeuristicSolver {
 					if (2 * blockingCar.length >= game.size + 1 - redCar.y) // Then the car cannot move to the bot
 																			// because it is too big
 						below = Integer.MAX_VALUE;
-					System.out.println(carsCountedAbove);
-					System.out.println(carsCountedBelow);
+//					System.out.println(carsCountedAbove);
+//					System.out.println(carsCountedBelow);
 
 					if (below > above) {// There is more blocking cars below, thus we should go above
 						carsCountedForHeuristic.addAll(carsCountedAbove);
@@ -180,7 +180,7 @@ public class HeuristicSolver {
 							blockingCar.x + 2 * blockingCar.length); x++) { // We count the number of cars to the left
 																			// of the blocking car
 						if (game.grid[blockingCar.y - 1][x - 1] != 0
-								&& !carsCountedForHeuristic.contains(game.grid[blockingCar.y - 1][x - 1]) 
+								&& !carsCountedForHeuristic.contains(game.grid[blockingCar.y - 1][x - 1])
 								&& !carsCountedRight.contains(game.grid[blockingCar.y - 1][x - 1]))
 							carsCountedRight.add(game.grid[blockingCar.y - 1][x - 1]);
 
@@ -215,8 +215,8 @@ public class HeuristicSolver {
 																			// because it is too big
 						right = Integer.MAX_VALUE;
 
-					System.out.println(carsCountedLeft);
-					System.out.println(carsCountedRight);
+//					System.out.println(carsCountedLeft);
+//					System.out.println(carsCountedRight);
 
 					if (right > left) {// There is more blocking cars below, thus we should go above
 						carsCountedForHeuristic.addAll(carsCountedLeft);
@@ -230,13 +230,12 @@ public class HeuristicSolver {
 			}
 			carsCountedLastTurn.clear();
 			carsCountedLastTurn.addAll(newCarsThisTurn);
-			System.out.println("carsCountedLastTurn" + carsCountedLastTurn);
-			System.out.println("carsCountedForHeuristic" + carsCountedForHeuristic);
+//			System.out.println("carsCountedLastTurn" + carsCountedLastTurn);
+//			System.out.println("carsCountedForHeuristic" + carsCountedForHeuristic);
 		}
 		return carsCountedForHeuristic.size();
 
 	}
-
 
 	public static int search(Game source, int i) throws OverlappingException {
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
@@ -369,7 +368,7 @@ public class HeuristicSolver {
 		while (path.size() > 0) {
 			if (i > 0)
 				System.out.println("Move n°" + i + " is");
-			 System.out.println("The new heuristic h3 is equal to " + h3(path.getLast()));
+			System.out.println("The new heuristic h3 is equal to " + h3(path.getLast()));
 			path.removeLast().draw();
 			i++;
 		}

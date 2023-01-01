@@ -19,7 +19,6 @@ public class VerifyOptimality {
 			if (bfs != h3)
 				System.out.println("Le BFS renvoie " + bfs + " alors que l'heuristique h3 renvoie " + h3
 						+ " pour le fichier RushHour" + (i + 1) + ".txt");
-
 		}
 	}
 }

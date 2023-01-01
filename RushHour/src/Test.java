@@ -4,10 +4,10 @@ public class Test {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
 		// Verify that all the heuristics are optimal, i.e. that the lengths of the solutions are equal
-		// VerifyOptimality.verify();
+		 VerifyOptimality.verify();
 //		
-		Game game = new Game("RushHour3.txt");
-		HeuristicSolver.searchDraw(game, 3);
+//		Game game = new Game("RushHour3.txt");
+//		HeuristicSolver.searchDraw(game, 3);
 //		
 //		Game test = new Game("test.txt");
 //		System.out.println(HeuristicSolver.h2(test));
