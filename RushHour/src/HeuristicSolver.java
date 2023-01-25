@@ -91,12 +91,6 @@ public class HeuristicSolver {
 	// vehicles.
 	// I think that the current structure is worthless, we should make a recursive function.
 	public static int h3(Game game) {
-//		LinkedList<Integer> carsCounted = new LinkedList<Integer>();
-//		
-//		if (game.isFinished())
-//			return 0;
-//
-//		return h3(game, carsCounted);
 		Car redCar = game.cars[0];
 
 		LinkedList<Integer> carsOnTheExitWay = new LinkedList<Integer>();

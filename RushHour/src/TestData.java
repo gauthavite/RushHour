@@ -111,8 +111,8 @@ public class TestData {
 			performance[(int) (resTime[i][3] - 1)][1] += resTime[i][0] - resTime[i][2];
 		}
 		
-		for (int i = 0; i < 14; i++) {
-			System.out.println("CAR n" + (i+1) + "  h1:" + performance[i][0] + " vs h2 :" + performance[i][1]);
-		}
+//		for (int i = 0; i < 14; i++) {
+//			System.out.println("CAR n" + (i+1) + "  h1:" + performance[i][0] + " vs h2 :" + performance[i][1]);
+//		}
 	}
 }
