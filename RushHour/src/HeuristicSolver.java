@@ -46,7 +46,7 @@ public class HeuristicSolver {
 			Car blockingCar = game.cars[carNumber - 1];
 			LinkedList<Integer> carsCountedAbove = new LinkedList<Integer>();
 			LinkedList<Integer> carsCountedBelow = new LinkedList<Integer>();
-
+			
 			for (int y = blockingCar.y + blockingCar.length; y < Math.min(game.size + 1,
 					blockingCar.y + 2 * blockingCar.length); y++) { // We count the number of cars below
 				// the blocking car
@@ -60,7 +60,7 @@ public class HeuristicSolver {
 																											// the
 																											// number of
 																											// cars
-																											// below the
+																											// above the
 																											// blocking
 																											// car
 				if (game.grid[y - 1][blockingCar.x - 1] != 0
@@ -72,7 +72,7 @@ public class HeuristicSolver {
 			int above = carsCountedAbove.size();
 			int below = carsCountedBelow.size();
 
-			if (blockingCar.length >= redCar.y) // Then the car cannot move to the top because it is too big, we can't
+			if (blockingCar.length > redCar.y) // Then the car cannot move to the top because it is too big, we can't
 												// have this issue with moving the car to the bottom.
 				above = Integer.MAX_VALUE;
 
