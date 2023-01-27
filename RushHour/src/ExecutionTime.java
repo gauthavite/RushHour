@@ -1,14 +1,9 @@
 import java.io.IOException;
 
-public class Test {
+public class ExecutionTime {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
-//		Game game = new Game("RushHour3.txt");
-//		HeuristicSolver.searchDraw(game, 3);
-//		
-//		Game test = new Game("test.txt");
-//		System.out.println(HeuristicSolver.h2(test));
-		
+		//loop for execution time
 		long[][] res = new long[6][3];
 		for (int i = 0; i < 6; i++) {
 			Game game = new Game("RushHour" + (i + 1) + ".txt");
@@ -19,7 +14,6 @@ public class Test {
 				BreadthFirst.bfs(game);
 			long end = System.currentTimeMillis();
 			res[i][0] = (end - start) / 10;
-
 
 			// First Heuristic
 			start = System.currentTimeMillis();
