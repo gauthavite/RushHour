@@ -214,8 +214,8 @@ public class HeuristicSolver {
 		int i = 0;
 		while (path.size() > 0) {
 			if (i > 0)
-				System.out.println("Move n°" + i + " is");
-			System.out.println("The new heuristic h3 is equal to " + h3(path.getLast()));
+				System.out.println("Move nï¿½" + i + " is");
+			System.out.println("The new heuristic h3 is equal to " + h2(path.getLast()));
 			path.removeLast().draw();
 			i++;
 		}
