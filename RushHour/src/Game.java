@@ -10,6 +10,7 @@ public class Game {
 	final Car[] cars;
 	final int[][] grid;
 
+	//First constructor from a .txt file
 	public Game(String path) throws IOException, OverlappingException {
 		BufferedReader br = new BufferedReader(new FileReader(path));
 
@@ -25,6 +26,7 @@ public class Game {
 		this.grid = gridFromCars(this.cars);
 	}
 	
+	//Constructor from game fields
 	public Game(int size, int nbVehicles, Car[] cars, int carNumber, int x, int y) throws OverlappingException {
 		this.size = size;
 		this.nbVehicles = nbVehicles;
@@ -75,6 +77,7 @@ public class Game {
 		}
 	}
 
+	//Computes the neighbors of a specific game state
 	public LinkedList<Game> possibleGrids() throws OverlappingException {
 		LinkedList<Game> games = new LinkedList<Game>();
 		for (Car c : this.cars) {

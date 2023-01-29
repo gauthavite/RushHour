@@ -4,18 +4,22 @@ public class OptimalityTest {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
 		// loop for distance and number of vertex visited
+		
 		long[][] resVisit = new long[40][3];
-
-		System.out.println("\nNumber of vertex visited\n");
+		int output = 0; // 0 to display the distance found, 1 for the number of vertex visited during
+		// the search
+		
+		if (output == 0) {
+			System.out.println("\nLength of the solution\n");
+		} else {
+			System.out.println("\nNumber of visited vertices\n");
+		}
 		System.out.println("      File    |  BFS  |  h 1  |  h 2  |");
 		System.out.println("---------------------------------------");
 
 		for (int i = 0; i < 6; i++) {
 			Game game = new Game("RushHour" + (i + 1) + ".txt");
 			System.out.print("RushHour" + (i + 1) + ".txt");
-
-			int output = 0; // 0 to display the distance found, 1 for the number of vertex visited during
-							// the search
 
 			// BFS
 			resVisit[i][0] = BreadthFirst.bfsBis(game)[output];

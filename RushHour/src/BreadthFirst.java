@@ -27,6 +27,8 @@ public class BreadthFirst {
 		return -1;
 	}
 
+	//This function is used to return the number of visited node and the distance in a single array.
+	//Its only purpose is to make performance tests easier.
 	public static int[] bfsBis(Game source) throws OverlappingException {
 		int[] res = new int[2];
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
@@ -85,6 +87,7 @@ public class BreadthFirst {
 		System.out.println("The game has no solution.");
 	}
 
+	//prints the solution computed
 	public static void pathTo(Game g, HashMap<Game, Game> pointer) {
 		LinkedList<Game> path = new LinkedList<Game>();
 		while (g != null) {

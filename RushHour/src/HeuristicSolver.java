@@ -44,27 +44,18 @@ public class HeuristicSolver {
 			Car blockingCar = game.cars[carNumber - 1];
 			LinkedList<Integer> carsCountedAbove = new LinkedList<Integer>();
 			LinkedList<Integer> carsCountedBelow = new LinkedList<Integer>();
-			
+			//We count the number of cars below the blocking car
 			for (int y = blockingCar.y + blockingCar.length; y < Math.min(game.size + 1,
-					blockingCar.y + 2 * blockingCar.length); y++) { // We count the number of cars below
-				// the blocking car
+					blockingCar.y + 2 * blockingCar.length); y++) { 
 				if (game.grid[y - 1][blockingCar.x - 1] != 0
 						&& !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
 					carsCountedBelow.add(game.grid[y - 1][blockingCar.x - 1]);
-
 			}
-
-			for (int y = blockingCar.y - 1; y > Math.max(0, blockingCar.y - 1 - blockingCar.length); y--) { // We count
-																											// the
-																											// number of
-																											// cars
-																											// above the
-																											// blocking
-																											// car
+			//We count the number of cars above the blocking car
+			for (int y = blockingCar.y - 1; y > Math.max(0, blockingCar.y - 1 - blockingCar.length); y--) { 
 				if (game.grid[y - 1][blockingCar.x - 1] != 0
 						&& !carsCountedForHeuristic.contains(game.grid[y - 1][blockingCar.x - 1]))
 					carsCountedAbove.add(game.grid[y - 1][blockingCar.x - 1]);
-
 			}
 
 			int above = carsCountedAbove.size();
@@ -73,9 +64,7 @@ public class HeuristicSolver {
 			if (blockingCar.length > redCar.y) // Then the car cannot move to the top because it is too big
 				above = Integer.MAX_VALUE;
 
-//			System.out.println(carsCountedAbove);
-//			System.out.println(carsCountedBelow);
-			if (below > above) {// There is more blocking cars below, thus we should go above
+			if (below > above) {// There is more blocking cars below, thus we should move upward
 				carsCountedForHeuristic.addAll(carsCountedAbove);
 			} else {
 				carsCountedForHeuristic.addAll(carsCountedBelow);
@@ -121,6 +110,8 @@ public class HeuristicSolver {
 		return -1;
 	}
 
+	//This function is used to return the number of visited node and the distance in a single array.
+	//Its only purpose is to make performance tests easier.
 	public static int[] searchBis(Game source, int i) throws OverlappingException {
 		int[] res = new int[2];
 		HashMap<Game, Integer> visited = new HashMap<Game, Integer>();
@@ -203,6 +194,7 @@ public class HeuristicSolver {
 		System.out.println("The game has no solution.");
 	}
 
+	//prints the solution computed
 	public static void pathTo(Game g, HashMap<Game, Game> pointer) {
 		LinkedList<Game> path = new LinkedList<Game>();
 		while (g != null) {
