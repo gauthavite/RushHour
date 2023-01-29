@@ -4,6 +4,7 @@ public class ExecutionTime {
 	public static void main(String[] args) throws IOException, OverlappingException {
 
 		//loop to calculate execution time of the three approaches
+		//the execution time is averaged 10 times so the loop might take a few minutes
 		long[][] res = new long[6][3];
 		for (int i = 0; i < 6; i++) {
 			Game game = new Game("RushHour" + (i + 1) + ".txt");
