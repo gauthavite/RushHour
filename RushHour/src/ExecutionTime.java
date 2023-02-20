@@ -2,7 +2,8 @@ import java.io.IOException;
 
 public class ExecutionTime {
 	public static void main(String[] args) throws IOException, OverlappingException {
-
+		int NB_ITER = 3;
+		
 		//loop to calculate execution time of the three approaches
 		//the execution time is averaged 10 times so the loop might take a few minutes
 		long[][] res = new long[6][3];
@@ -11,24 +12,24 @@ public class ExecutionTime {
 
 			// BFS
 			long start = System.currentTimeMillis();
-			for (int iter = 0; iter < 10; iter++)
+			for (int iter = 0; iter < NB_ITER; iter++)
 				BreadthFirst.bfs(game);
 			long end = System.currentTimeMillis();
-			res[i][0] = (end - start) / 10;
+			res[i][0] = (end - start) / NB_ITER;
 
 			// First Heuristic
 			start = System.currentTimeMillis();
-			for (int iter = 0; iter < 10; iter++)
+			for (int iter = 0; iter < NB_ITER; iter++)
 				HeuristicSolver.search(game, 1);
 			end = System.currentTimeMillis();
-			res[i][1] = (end - start) / 10;   
+			res[i][1] = (end - start) / NB_ITER;   
 
 			// Second Heuristic
 			start = System.currentTimeMillis();
-			for (int iter = 0; iter < 10; iter++)
+			for (int iter = 0; iter < NB_ITER; iter++)
 				HeuristicSolver.search(game, 2);
 			end = System.currentTimeMillis();
-			res[i][2] = (end - start) / 10;
+			res[i][2] = (end - start) / NB_ITER;
 
 		}
 		System.out.println("\nSum up times (ms)\n");
