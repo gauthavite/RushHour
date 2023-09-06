@@ -5,3 +5,7 @@ The purpose of this programming project is to write an efficient solver for rush
 A solution to a rush hour puzzle is a sequence of moves that allows the red car to exit. An optimal solution is a solution with fewest possible moves.
 
 To get a better understanding of the game, feel free to try and play rush hour, for instance at https://www.crazygames.com/game/rush-hour-online.
+
+## How to use 
+
+You can run SolutionExample.java in `RushHour/RushHour/src` to get an idea of how the solver works.
