@@ -9,3 +9,7 @@ To get a better understanding of the game, feel free to try and play rush hour, 
 ## How to use 
 
 You can run SolutionExample.java in `RushHour/RushHour/src` to get an idea of how the solver works.
+
+## Theory
+
+The theory behind the code is explained in the file `RushHour_Report.pdf`.
